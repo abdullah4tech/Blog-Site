@@ -29,7 +29,7 @@
 
 <style scoped>
 .post-card {
-  background-color: rgb(245, 239, 239);
+  background-color: rgb(255, 255, 255);
   position: relative;
   margin: 20px;
   width: 40em;
