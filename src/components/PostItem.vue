@@ -1,7 +1,25 @@
+<script setup>
+
+defineProps({
+  post: {
+    type: Object,
+    required: true
+  }
+})
+
+
+const emit = defineEmits(['get-id'])
+const getId = (id) => {
+  emit('get-id', id);
+}
+
+</script>
+
 <template>
   <div class="post-card">
+    <button @click="getId(post.id)">Click</button>
     <div class="title-section">
-      <p>Written by Abdullah Mustapha on 22/04/2024</p>
+      <p>Written by {{ post.author }} on {{ post.created_at }}</p>
       <div class="icons">
         <button class="shape">
           <span class="material-symbols-outlined"> delete_forever </span>
@@ -15,14 +33,8 @@
       </div>
     </div>
     <div class="post-section">
-      <h1>VueJS Vs. ReactJS</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor minima
-        tenetur architecto error reprehenderit qui consectetur necessitatibus
-        beatae aliquid obcaecati, iusto id officiis aliquam animi fugit, magnam
-        harum culpa unde. Labore in iste amet repudiandae optio aspernatur
-        commodi asperiores magni.
-      </p>
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.body }}</p>
     </div>
   </div>
 </template>

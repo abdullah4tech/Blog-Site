@@ -4,13 +4,13 @@ import NewPost from '@/components/NewPost.vue';
 
 
 <template>
-  <Wrapper>
+  <section>
     <NewPost />
-  </Wrapper>
+  </section>
 </template>
 
 <style scoped>
-Wrapper{
+section{
   display: flex;
   flex-direction: column;
   justify-content: center;
