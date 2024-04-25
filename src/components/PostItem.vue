@@ -1,4 +1,7 @@
 <script setup>
+import usePostStore from '@/stores/posts';
+
+const store = usePostStore()
 
 defineProps({
   post: {
@@ -7,26 +10,20 @@ defineProps({
   }
 })
 
-
-const emit = defineEmits(['get-id'])
-const getId = (id) => {
-  emit('get-id', id);
-}
-
 </script>
 
 <template>
   <div class="post-card">
-    <button @click="getId(post.id)">Click</button>
     <div class="title-section">
       <p>Written by {{ post.author }} on {{ post.created_at }}</p>
       <div class="icons">
-        <button class="shape">
+        <button class="shape" @click="store.deletePost(post.id)">
           <span class="material-symbols-outlined"> delete_forever </span>
         </button>
-        <button class="shape">
+        <button class="shape" @click="store.savePost(post.id)">
           <span class="material-symbols-outlined">
-            bookmark
+            {{ post.is_saved ? 'bookmark_added' : 'bookmark' }}
+            <!-- bookmark -->
             <!-- bookmark_added -->
           </span>
         </button>

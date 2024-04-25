@@ -1,49 +1,34 @@
 <script setup>
 import PostItem from '@/components/PostItem.vue';
+import usePostStore from '@/stores/posts';
+import { ref } from 'vue';
 
+const postStore = usePostStore()
+const postFilter = ref('All Posts')
 
-const posts = [
-  {
-    id: 1,
-    title: 'Reactivity',
-    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor minima tenetur architecto error reprehenderit qui consectetur necessitatibus beatae aliquid obcaecati, iusto id officiis aliquam animi fugit, magnam harum culpa unde. Labore in iste amet repudiandae optio aspernatur commodi asperiores magni.',
-    author: 'John Deo',
-    created_at: '11/06/2024',
-    is_saved: false
-  },
-  {
-    id: 2,
-    title: 'State Management',
-    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor minima tenetur architecto error reprehenderit qui consectetur necessitatibus beatae aliquid obcaecati, iusto id officiis aliquam animi fugit, magnam harum culpa unde. Labore in iste amet repudiandae optio aspernatur commodi asperiores magni.',
-    author: 'Abdullah Mustapha',
-    created_at: '22/04/2024',
-    is_saved: false
-  },
-  {
-    id: 3,
-    title: 'Lifecyle Of Hooks',
-    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor minima tenetur architecto error reprehenderit qui consectetur necessitatibus beatae aliquid obcaecati, iusto id officiis aliquam animi fugit, magnam harum culpa unde. Labore in iste amet repudiandae optio aspernatur commodi asperiores magni.',
-    author: 'Tobi',
-    created_at : '21/01/2024',
-    is_saved: false
-  },
-  {
-    id: 4,
-    title: 'Vue Components',
-    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor minima tenetur architecto error reprehenderit qui consectetur necessitatibus beatae aliquid obcaecati, iusto id officiis aliquam animi fugit, magnam harum culpa unde. Labore in iste amet repudiandae optio aspernatur commodi asperiores magni.',
-    author: 'abdullah4tech',
-    created_at : '1/01/2024',
-    is_saved: false
-  }
-]
+const setPostFilter = () => {
+  postFilter.value = postFilter.value === 'All Posts' ? 'Saved Posts' : 'All Posts'
+}
+
 </script>
 
 <template>
-  <section>
-    <div v-for="post in posts" :key="post.id">
-      <PostItem :post="post" @get-id="(id) => {
-        console.log(id)
-      }" />
+  <div class="header">
+    <div>
+      <h2>{{ postFilter }}</h2>
+    </div>
+    <button @click="setPostFilter">Show {{ postFilter === 'All Posts' ? 'Saved Posts' : 'All Posts' }}</button>
+  </div>
+  
+  <section v-if="postFilter === 'All Posts'">
+    <div v-for="post in postStore.sorted" :key="post.id">
+      <PostItem :post="post" />
+    </div>
+  </section>
+
+  <section v-if="postFilter === 'Saved Posts'">
+    <div v-for="post in postStore.saved" :key="post.id">
+      <PostItem :post="post" />
     </div>
   </section>
 </template>
@@ -55,4 +40,35 @@ section{
   justify-content: center;
   align-items: center;
 }
+
+.header{
+  display: flex;
+  background-color: white;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header button{
+  height: 3em;
+  padding: 7px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgb(53, 106, 221);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.header button:hover{
+  background-color: rgb(90, 140, 214);
+  border-radius: 6px;
+  transform: scale(1.05); 
+}
+
+.header button:active{
+  transform: scale(1.2);
+}
+
 </style>

@@ -1,16 +1,22 @@
 <script setup>
 import { reactive } from 'vue';
+import usePostStore from '@/stores/posts';
+import { useRouter } from 'vue-router';
 
 const state = reactive({
   title: '',
   body: ''
 })
 
+const router = useRouter()
+const store = usePostStore()
+
 // const VaidCheck = computed(() => {
 //   return state.title === '' || state.body === '';
 // })
 const submit = () => {
-  console.log(state.title, state.body);
+  store.addPost(state)
+  router.push({ name: 'Home' })
 }
 
 </script>
